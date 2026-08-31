@@ -7,27 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        .glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .glass-dark {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .glass-dark { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
 <body class="bg-slate-100 font-sans antialiased text-slate-800 min-h-screen">
 
     <script>
-        // MASUKKAN WEB APP URL GOOGLE APPS SCRIPT ANDA DI SINI
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzpN_eg-q11w3a5iSZqtokdB792OQsi_K_0yuu-e9ue9DuWwR6EKYVom7qZFu-5qaDa/exec";
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxaRt4wSzsn9mbDM7yMkyG06ZzR9bC6zzsnHiY1WY_1lUntQQGNYw20x3Vtbj930P33/exec";
     </script>
 
+    <!-- SPLASH SCREEN -->
     <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-indigo-900 to-slate-900 text-white transition-opacity duration-500">
         <div class="text-center p-6 animate-pulse">
             <div class="w-20 h-20 bg-indigo-500 rounded-3xl mx-auto flex items-center justify-center shadow-lg shadow-indigo-500/50 mb-4">
@@ -38,6 +28,7 @@
         </div>
     </div>
 
+    <!-- LOGIN PAGE -->
     <div id="loginPage" class="hidden min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
         <div class="glass-dark w-full max-w-md p-8 rounded-3xl shadow-2xl text-white">
             <div class="text-center mb-8">
@@ -50,77 +41,58 @@
             <form id="loginForm" class="space-y-5">
                 <div>
                     <label class="block text-xs text-slate-300 font-medium mb-1">NIP Pegawai</label>
-                    <div class="relative">
-                        <i data-lucide="user" class="w-5 h-5 absolute left-3 top-3 text-slate-400"></i>
-                        <input type="text" id="loginNip" required placeholder="Masukkan NIP" class="w-full bg-slate-800/60 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-indigo-500">
-                    </div>
+                    <input type="text" id="loginNip" required placeholder="Masukkan NIP" class="w-full bg-slate-800/60 border border-slate-700 rounded-xl py-2.5 px-4 text-sm text-white focus:outline-none focus:border-indigo-500">
                 </div>
                 <div>
                     <label class="block text-xs text-slate-300 font-medium mb-1">Password</label>
-                    <div class="relative">
-                        <i data-lucide="lock" class="w-5 h-5 absolute left-3 top-3 text-slate-400"></i>
-                        <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-800/60 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-indigo-500">
-                    </div>
+                    <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-800/60 border border-slate-700 rounded-xl py-2.5 px-4 text-sm text-white focus:outline-none focus:border-indigo-500">
                 </div>
-                <button type="submit" id="btnLogin" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 flex justify-center items-center gap-2">
-                    <span>Masuk Sistem</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <button type="submit" id="btnLogin" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/30">
+                    Masuk Sistem
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- MAIN APP STRUCTURE -->
     <div id="mainApp" class="hidden min-h-screen flex flex-col md:flex-row">
+        <!-- SIDEBAR DESKTOP -->
         <aside class="hidden md:flex flex-col w-64 bg-slate-900 text-white p-6 justify-between border-r border-slate-800">
             <div>
                 <div class="flex items-center gap-3 mb-8">
-                    <div class="p-2 bg-indigo-600 rounded-xl">
-                        <i data-lucide="building-2" class="w-6 h-6"></i>
-                    </div>
+                    <div class="p-2 bg-indigo-600 rounded-xl"><i data-lucide="building-2" class="w-6 h-6"></i></div>
                     <div>
                         <h1 class="font-bold text-sm leading-tight">E-ABSENSI</h1>
                         <p class="text-[10px] text-slate-400">KAB. SINTANG</p>
                     </div>
                 </div>
                 <nav class="space-y-2">
-                    <button onclick="switchView('dashboard')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 text-slate-300 hover:text-white transition">
-                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
-                    </button>
-                    <button onclick="switchView('absen')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 text-slate-300 hover:text-white transition">
-                        <i data-lucide="camera" class="w-5 h-5"></i> Presensi Kamera
-                    </button>
-                    <button onclick="switchView('profile')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 text-slate-300 hover:text-white transition">
-                        <i data-lucide="user" class="w-5 h-5"></i> Profil Pegawai
-                    </button>
+                    <button onclick="switchView('dashboard')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 text-slate-300 transition"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</button>
+                    <button onclick="switchView('absen')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 text-slate-300 transition"><i data-lucide="camera" class="w-5 h-5"></i> Presensi Kamera</button>
+                    <button onclick="switchView('calendar')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 text-slate-300 transition"><i data-lucide="calendar" class="w-5 h-5"></i> Kalender Presensi</button>
+                    <button onclick="switchView('profile')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium hover:bg-slate-800 text-slate-300 transition"><i data-lucide="user" class="w-5 h-5"></i> Profil Pegawai</button>
                 </nav>
             </div>
-            <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition">
-                <i data-lucide="log-out" class="w-5 h-5"></i> Keluar
-            </button>
+            <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-500/10 transition"><i data-lucide="log-out" class="w-5 h-5"></i> Keluar</button>
         </aside>
 
+        <!-- CONTENT AREA -->
         <main class="flex-1 pb-20 md:pb-6 p-4 md:p-8 overflow-y-auto">
             <div class="md:hidden flex justify-between items-center mb-6">
-                <div class="flex items-center gap-2">
-                    <div class="p-2 bg-indigo-600 text-white rounded-xl">
-                        <i data-lucide="building-2" class="w-5 h-5"></i>
-                    </div>
-                    <span class="font-bold text-slate-800 text-sm">Sintang Presensi</span>
-                </div>
-                <button onclick="logout()" class="p-2 text-rose-600 rounded-lg bg-rose-50">
-                    <i data-lucide="log-out" class="w-5 h-5"></i>
-                </button>
+                <span class="font-bold text-slate-800 text-sm">Sintang Presensi</span>
+                <button onclick="logout()" class="p-2 text-rose-600 rounded-lg bg-rose-50"><i data-lucide="log-out" class="w-5 h-5"></i></button>
             </div>
 
+            <!-- VIEW: DASHBOARD -->
             <div id="viewDashboard" class="space-y-6">
-                <div class="glass p-6 rounded-3xl border border-white/60 shadow-sm bg-gradient-to-r from-indigo-600 to-indigo-800 text-white">
-                    <p class="text-indigo-200 text-xs font-medium uppercase tracking-wider">Selamat Datang</p>
+                <div class="glass p-6 rounded-3xl bg-gradient-to-r from-indigo-600 to-indigo-800 text-white">
+                    <p class="text-indigo-200 text-xs font-medium uppercase">Selamat Datang</p>
                     <h2 id="dashNama" class="text-xl font-bold mt-1">--</h2>
                     <p id="dashJabatan" class="text-xs text-indigo-100 mt-0.5">--</p>
-                    <span id="dashDinas" class="inline-block mt-3 px-3 py-1 bg-white/20 rounded-full text-[10px] backdrop-blur-md">--</span>
+                    <span id="dashDinas" class="inline-block mt-3 px-3 py-1 bg-white/20 rounded-full text-[10px]">--</span>
                 </div>
 
-                <div class="glass p-6 rounded-3xl shadow-sm border border-slate-200/60 text-center">
+                <div class="glass p-6 rounded-3xl border border-slate-200 text-center">
                     <p class="text-xs text-slate-500 font-medium">WAKTU LOKAL (WIB / WITA)</p>
                     <div id="digitalClock" class="text-3xl font-extrabold text-slate-800 tracking-tight my-2">00:00:00</div>
                     <p id="digitalDate" class="text-xs text-slate-400">--</p>
@@ -129,29 +101,30 @@
                 <div class="grid grid-cols-3 gap-3">
                     <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-2xl text-center">
                         <span class="text-xs text-emerald-600 font-medium block">Hadir</span>
-                        <span class="text-xl font-bold text-emerald-700">18</span>
+                        <span id="statHadir" class="text-xl font-bold text-emerald-700">0</span>
                     </div>
                     <div class="bg-amber-50 border border-amber-100 p-4 rounded-2xl text-center">
-                        <span class="text-xs text-amber-600 font-medium block">Izin</span>
-                        <span class="text-xl font-bold text-amber-700">1</span>
+                        <span class="text-xs text-amber-600 font-medium block">Terlambat</span>
+                        <span id="statTerlambat" class="text-xl font-bold text-amber-700">0</span>
                     </div>
                     <div class="bg-rose-50 border border-rose-100 p-4 rounded-2xl text-center">
-                        <span class="text-xs text-rose-600 font-medium block">Alpa</span>
-                        <span class="text-xl font-bold text-rose-700">0</span>
+                        <span class="text-xs text-rose-600 font-medium block">Tidak Absen</span>
+                        <span id="statAlpa" class="text-xl font-bold text-rose-700">0</span>
                     </div>
                 </div>
             </div>
 
+            <!-- VIEW: ABSEN -->
             <div id="viewAbsen" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/60">
-                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                    <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
                         <i data-lucide="camera" class="w-5 h-5 text-indigo-600"></i> Presensi Real-Time
                     </h3>
+                    <p class="text-xs text-slate-500 mb-4">* Absen masuk > 07:30 dicatat Terlambat. Absen pulang aktif pukul 17:00.</p>
                     
-                    <div class="relative w-full aspect-square max-w-xs mx-auto bg-slate-900 rounded-2xl overflow-hidden mb-4 shadow-inner">
+                    <div class="relative w-full aspect-square max-w-xs mx-auto bg-slate-900 rounded-2xl overflow-hidden mb-4">
                         <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
                         <canvas id="canvas" class="hidden"></canvas>
-                        <img id="photoPreview" class="hidden w-full h-full object-cover">
                     </div>
 
                     <div id="locationInfo" class="text-center text-xs text-slate-500 mb-4 flex items-center justify-center gap-1">
@@ -160,79 +133,90 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="captureAndSend('MASUK')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-600/20 flex justify-center items-center gap-2">
-                            <i data-lucide="log-in" class="w-4 h-4"></i> Absen Masuk
+                        <button onclick="captureAndSend('MASUK')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-3 rounded-xl text-sm shadow-lg shadow-emerald-600/20">
+                            Absen Masuk
                         </button>
-                        <button onclick="captureAndSend('PULANG')" class="bg-rose-600 hover:bg-rose-500 text-white font-medium py-3 rounded-xl text-sm transition shadow-lg shadow-rose-600/20 flex justify-center items-center gap-2">
-                            <i data-lucide="log-out" class="w-4 h-4"></i> Absen Pulang
+                        <button id="btnPulang" onclick="captureAndSend('PULANG')" class="bg-slate-300 text-slate-500 font-medium py-3 rounded-xl text-sm cursor-not-allowed" disabled>
+                            Absen Pulang (Terkunci)
                         </button>
                     </div>
                 </div>
             </div>
 
+            <!-- VIEW: KALENDER & HARI TIDAK ABSEN -->
+            <div id="viewCalendar" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="calendar" class="w-5 h-5 text-indigo-600"></i> Rekapitualisasi Kehadiran
+                        </h3>
+                        <span id="calendarMonth" class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">--</span>
+                    </div>
+
+                    <!-- Grid Kalender -->
+                    <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-slate-400 mb-2">
+                        <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
+                    </div>
+                    <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-xs"></div>
+
+                    <!-- Keterangan Warna -->
+                    <div class="mt-6 pt-4 border-t flex justify-around text-[11px] text-slate-600">
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded-full inline-block"></span> Hadir</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded-full inline-block"></span> Terlambat</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-rose-500 rounded-full inline-block"></span> Tidak Absen</span>
+                    </div>
+                </div>
+
+                <!-- Daftar Tanggal Tidak Absen -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                    <h4 class="font-bold text-slate-800 text-sm mb-3 text-rose-600 flex items-center gap-2">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i> Daftar Hari Kerja Tidak Absen (Alpa)
+                    </h4>
+                    <ul id="listAlpa" class="space-y-2 text-xs text-slate-600">
+                        <li class="text-slate-400 italic">Memuat data...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VIEW: PROFILE -->
             <div id="viewProfile" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/60">
-                    <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2">
-                        <i data-lucide="user" class="w-5 h-5 text-indigo-600"></i> Informasi Data Pegawai
-                    </h3>
-                    <div class="space-y-4 text-sm">
-                        <div class="border-b pb-2">
-                            <span class="text-xs text-slate-400 block">NIP</span>
-                            <span id="profNip" class="font-semibold text-slate-700">-</span>
-                        </div>
-                        <div class="border-b pb-2">
-                            <span class="text-xs text-slate-400 block">Nama Lengkap</span>
-                            <span id="profNama" class="font-semibold text-slate-700">-</span>
-                        </div>
-                        <div class="border-b pb-2">
-                            <span class="text-xs text-slate-400 block">Jabatan</span>
-                            <span id="profJabatan" class="font-semibold text-slate-700">-</span>
-                        </div>
-                        <div class="border-b pb-2">
-                            <span class="text-xs text-slate-400 block">OPD / Dinas</span>
-                            <span id="profDinas" class="font-semibold text-slate-700">-</span>
-                        </div>
-                        <div>
-                            <span class="text-xs text-slate-400 block">Email Kontak</span>
-                            <span id="profEmail" class="font-semibold text-slate-700">-</span>
-                        </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="user" class="w-5 h-5 text-indigo-600"></i> Profil Pegawai</h3>
+                    <div class="space-y-3 text-sm">
+                        <p class="text-xs text-slate-400">NIP: <span id="profNip" class="font-semibold text-slate-700 block text-sm">-</span></p>
+                        <p class="text-xs text-slate-400">Nama: <span id="profNama" class="font-semibold text-slate-700 block text-sm">-</span></p>
+                        <p class="text-xs text-slate-400">Jabatan: <span id="profJabatan" class="font-semibold text-slate-700 block text-sm">-</span></p>
+                        <p class="text-xs text-slate-400">Dinas: <span id="profDinas" class="font-semibold text-slate-700 block text-sm">-</span></p>
                     </div>
                 </div>
             </div>
         </main>
 
+        <!-- BOTTOM NAV MOBILE -->
         <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 flex justify-around py-3 px-2 z-40">
-            <button onclick="switchView('dashboard')" class="flex flex-col items-center text-xs text-slate-600 hover:text-indigo-600">
-                <i data-lucide="layout-dashboard" class="w-5 h-5 mb-0.5"></i> Dashboard
-            </button>
-            <button onclick="switchView('absen')" class="flex flex-col items-center text-xs text-slate-600 hover:text-indigo-600">
-                <i data-lucide="camera" class="w-5 h-5 mb-0.5"></i> Absen
-            </button>
-            <button onclick="switchView('profile')" class="flex flex-col items-center text-xs text-slate-600 hover:text-indigo-600">
-                <i data-lucide="user" class="w-5 h-5 mb-0.5"></i> Profil
-            </button>
+            <button onclick="switchView('dashboard')" class="flex flex-col items-center text-xs text-slate-600"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</button>
+            <button onclick="switchView('absen')" class="flex flex-col items-center text-xs text-slate-600"><i data-lucide="camera" class="w-5 h-5"></i> Absen</button>
+            <button onclick="switchView('calendar')" class="flex flex-col items-center text-xs text-slate-600"><i data-lucide="calendar" class="w-5 h-5"></i> Kalender</button>
+            <button onclick="switchView('profile')" class="flex flex-col items-center text-xs text-slate-600"><i data-lucide="user" class="w-5 h-5"></i> Profil</button>
         </div>
     </div>
 
     <script>
         let currentUser = null;
-        let currentLat = null;
-        let currentLong = null;
+        let currentLat = null, currentLong = null;
         let videoStream = null;
+        let attendanceLogs = [];
 
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();
-            
-            // Splashscreen Handling
             setTimeout(() => {
                 document.getElementById('splashScreen').classList.add('opacity-0');
                 setTimeout(() => {
                     document.getElementById('splashScreen').classList.add('hidden');
                     checkSession();
                 }, 500);
-            }, 2000);
+            }, 1500);
 
-            // Clock Engine
             setInterval(updateClock, 1000);
             updateClock();
         });
@@ -248,24 +232,21 @@
             }
         }
 
-        // Login Handler
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnLogin');
             btn.disabled = true;
             btn.innerText = "Memverifikasi...";
 
-            const payload = {
-                action: "login",
-                nip: document.getElementById('loginNip').value,
-                password: document.getElementById('loginPassword').value
-            };
-
             try {
                 const response = await fetch(GAS_API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        action: "login",
+                        nip: document.getElementById('loginNip').value,
+                        password: document.getElementById('loginPassword').value
+                    })
                 });
                 const result = await response.json();
 
@@ -279,11 +260,10 @@
                     alert(result.message);
                 }
             } catch (err) {
-                alert("Gagal terhubung ke server. Pastikan URL Web App GAS sudah benar.");
+                alert("Gagal koneksi server.");
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<span>Masuk Sistem</span><i data-lucide="arrow-right" class="w-4 h-4"></i>`;
-                lucide.createIcons();
+                btn.innerText = "Masuk Sistem";
             }
         });
 
@@ -296,117 +276,199 @@
             document.getElementById('dashNama').innerText = currentUser.nama;
             document.getElementById('dashJabatan').innerText = currentUser.jabatan;
             document.getElementById('dashDinas').innerText = currentUser.dinas;
-
             document.getElementById('profNip').innerText = currentUser.nip;
             document.getElementById('profNama').innerText = currentUser.nama;
             document.getElementById('profJabatan').innerText = currentUser.jabatan;
             document.getElementById('profDinas').innerText = currentUser.dinas;
-            document.getElementById('profEmail').innerText = currentUser.email;
+            
+            loadSummaryData();
         }
 
         function switchView(viewName) {
-            document.getElementById('viewDashboard').classList.add('hidden');
-            document.getElementById('viewAbsen').classList.add('hidden');
-            document.getElementById('viewProfile').classList.add('hidden');
-
+            ['viewDashboard', 'viewAbsen', 'viewCalendar', 'viewProfile'].forEach(id => document.getElementById(id).classList.add('hidden'));
             stopCamera();
 
-            if (viewName === 'dashboard') {
-                document.getElementById('viewDashboard').classList.remove('hidden');
-            } else if (viewName === 'absen') {
+            if (viewName === 'dashboard') document.getElementById('viewDashboard').classList.remove('hidden');
+            else if (viewName === 'absen') {
                 document.getElementById('viewAbsen').classList.remove('hidden');
                 startCamera();
                 initLocation();
-            } else if (viewName === 'profile') {
-                document.getElementById('viewProfile').classList.remove('hidden');
+            } else if (viewName === 'calendar') {
+                document.getElementById('viewCalendar').classList.remove('hidden');
+                loadCalendarView();
+            } else if (viewName === 'profile') document.getElementById('viewProfile').classList.remove('hidden');
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            document.getElementById('digitalClock').innerText = now.toLocaleTimeString('id-ID');
+            document.getElementById('digitalDate').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            // LOGIKA KUNCI PULANG: Buka jika sudah >= 17:00
+            const btnPulang = document.getElementById('btnPulang');
+            if (hours >= 17) {
+                btnPulang.disabled = false;
+                btnPulang.className = "bg-rose-600 hover:bg-rose-500 text-white font-medium py-3 rounded-xl text-sm shadow-lg shadow-rose-600/20";
+                btnPulang.innerText = "Absen Pulang";
+            } else {
+                btnPulang.disabled = true;
+                btnPulang.className = "bg-slate-300 text-slate-500 font-medium py-3 rounded-xl text-sm cursor-not-allowed";
+                btnPulang.innerText = "Absen Pulang (Kunci s/d 17:00)";
             }
         }
 
-        // Camera Engine
         async function startCamera() {
             try {
-                videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+                videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
                 document.getElementById('webcam').srcObject = videoStream;
-            } catch (err) {
-                alert("Gagal mengakses kamera device Anda.");
-            }
+            } catch (err) { alert("Akses kamera ditolak."); }
         }
 
         function stopCamera() {
-            if (videoStream) {
-                videoStream.getTracks().forEach(track => track.stop());
-            }
+            if (videoStream) videoStream.getTracks().forEach(t => t.stop());
         }
 
-        // Geolocation Engine
         function initLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    currentLat = pos.coords.latitude;
-                    currentLong = pos.coords.longitude;
-                    document.getElementById('geoStatus').innerText = `Lokasi Terkunci: ${currentLat.toFixed(4)}, ${currentLong.toFixed(4)}`;
-                }, () => {
-                    document.getElementById('geoStatus').innerText = "Gagal mengambil GPS.";
+                navigator.geolocation.getCurrentPosition(pos => {
+                    currentLat = pos.coords.latitude; currentLong = pos.coords.longitude;
+                    document.getElementById('geoStatus').innerText = `GPS Terkunci: ${currentLat.toFixed(4)}, ${currentLong.toFixed(4)}`;
                 });
             }
         }
 
-        // Clock Engine Helper
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('digitalClock').innerText = now.toLocaleTimeString('id-ID');
-            document.getElementById('digitalDate').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        }
-
-        // Submit Presensi
         async function captureAndSend(tipe) {
-            if (!currentLat || !currentLong) {
-                alert("Lokasi GPS belum terkunci. Mohon beri izin akses lokasi.");
-                return;
-            }
+            if (!currentLat) return alert("Lokasi GPS belum didapatkan.");
 
             const video = document.getElementById('webcam');
             const canvas = document.getElementById('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const photoBase64 = canvas.toDataURL('image/jpeg');
+            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
 
-            const payload = {
-                action: "submitAbsen",
-                nip: currentUser.nip,
-                nama: currentUser.nama,
-                tipe: tipe,
-                latitude: currentLat,
-                longitude: currentLong,
-                photoBase64: photoBase64
-            };
-
-            alert("Mengirim Presensi, harap tunggu...");
+            const geoStatus = document.getElementById('geoStatus');
+            geoStatus.innerText = "⏳ Sedang memproses presensi...";
 
             try {
-                const response = await fetch(GAS_API_URL, {
+                const res = await fetch(GAS_API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        action: "submitAbsen",
+                        nip: currentUser.nip,
+                        nama: currentUser.nama,
+                        tipe: tipe,
+                        latitude: currentLat,
+                        longitude: currentLong,
+                        photoBase64: canvas.toDataURL('image/jpeg')
+                    })
                 });
-                const result = await response.json();
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) switchView('dashboard');
+            } catch (err) { alert("Gagal mengirim presensi."); }
+        }
+
+        async function loadSummaryData() {
+            try {
+                const res = await fetch(GAS_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({ action: "getSummary", nip: currentUser.nip })
+                });
+                const result = await res.json();
                 if (result.success) {
-                    alert(result.message);
-                    switchView('dashboard');
-                } else {
-                    alert(result.message);
+                    document.getElementById('statHadir').innerText = result.summary.hadir;
+                    document.getElementById('statTerlambat').innerText = result.summary.terlambat;
                 }
-            } catch (err) {
-                alert("Terjadi kesalahan sistem saat mengirim data.");
+            } catch (err) {}
+        }
+
+        // KALENDER KEHADIRAN & HARI TIDAK ABSEN ENGINE
+        async function loadCalendarView() {
+            const grid = document.getElementById('calendarGrid');
+            const listAlpa = document.getElementById('listAlpa');
+            grid.innerHTML = "Memuat..."; listAlpa.innerHTML = "Memuat...";
+
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+
+            document.getElementById('calendarMonth').innerText = now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+            try {
+                const res = await fetch(GAS_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({ action: "getAttendanceLogs", nip: currentUser.nip })
+                });
+                const result = await res.json();
+                attendanceLogs = result.success ? result.logs : [];
+
+                renderCalendar(year, month);
+            } catch (e) {
+                grid.innerHTML = "Gagal memuat kalender.";
             }
         }
 
-        function logout() {
-            localStorage.removeItem("sintang_user");
-            stopCamera();
-            location.reload();
+        function renderCalendar(year, month) {
+            const grid = document.getElementById('calendarGrid');
+            const listAlpa = document.getElementById('listAlpa');
+            grid.innerHTML = ""; listAlpa.innerHTML = "";
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date().getDate();
+
+            // Padding Kosong
+            for (let i = 0; i < firstDay; i++) {
+                grid.appendChild(document.createElement('div'));
+            }
+
+            let alpaCount = 0;
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = "py-2 rounded-xl flex flex-col items-center justify-center font-semibold ";
+
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const currentCheckDate = new Date(year, month, day);
+                const dayOfWeek = currentCheckDate.getDay(); // 0 = Minggu, 6 = Sabtu
+
+                // Cari Log Absen Masuk
+                const log = attendanceLogs.find(l => l.date === dateStr && l.tipe === "MASUK");
+
+                if (log) {
+                    if (log.kualifikasi === "Terlambat") {
+                        cell.classList.add("bg-amber-100", "text-amber-800", "border", "border-amber-300");
+                        cell.innerHTML = `${day} <span class="text-[8px] font-normal">07:30+</span>`;
+                    } else {
+                        cell.classList.add("bg-emerald-100", "text-emerald-800", "border", "border-emerald-300");
+                        cell.innerHTML = `${day} <span class="text-[8px] font-normal">Hadir</span>`;
+                    }
+                } else if (dayOfWeek !== 0 && dayOfWeek !== 6 && day < today) {
+                    // Hari Kerja (Senin-Jumat) yang sudah berlalu tapi tidak ada Log Absen
+                    cell.classList.add("bg-rose-100", "text-rose-700", "border", "border-rose-300");
+                    cell.innerHTML = `${day} <span class="text-[8px] font-normal">Alpa</span>`;
+
+                    alpaCount++;
+                    const li = document.createElement('li');
+                    li.className = "flex justify-between items-center p-2 bg-rose-50 border border-rose-100 rounded-xl text-rose-700 font-medium";
+                    li.innerHTML = `<span>📅 ${currentCheckDate.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })}</span> <span class="text-[10px] bg-rose-200 px-2 py-0.5 rounded-full">Tanpa Keterangan</span>`;
+                    listAlpa.appendChild(li);
+                } else {
+                    // Hari Libur Akhir Pekan / Hari Mendatang
+                    cell.classList.add("bg-slate-50", "text-slate-400");
+                    cell.innerText = day;
+                }
+
+                grid.appendChild(cell);
+            }
+
+            document.getElementById('statAlpa').innerText = alpaCount;
+            if (alpaCount === 0) {
+                listAlpa.innerHTML = `<li class="text-emerald-600 italic">Luar biasa! Tidak ada hari kerja yang terlewatkan bulan ini.</li>`;
+            }
         }
     </script>
 </body>
